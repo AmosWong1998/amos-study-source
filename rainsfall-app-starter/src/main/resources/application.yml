@@ -1,0 +1,7 @@
+jasypt:
+  encryptor:
+    # 自定义加密盐值(密钥)
+    password: shendu188
+    # 加密算法设置
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator

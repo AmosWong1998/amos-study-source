@@ -12,8 +12,6 @@
         <module>rainsfall-api</module>
         <module>rainsfall-app-starter</module>
         <module>rainsfall-biz</module>
-        <module>rainsfall-common</module>
-        <module>rainsfall-core</module>
     </modules>
 
     <properties>
@@ -113,50 +111,8 @@
 
             <dependency>
                 <groupId>com.deepinnet</groupId>
-                <artifactId>rainsfall-common-service-integration</artifactId>
-                <version>${rainsfall.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.deepinnet</groupId>
-                <artifactId>rainsfall-common-util</artifactId>
-                <version>${rainsfall.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.deepinnet</groupId>
-                <artifactId>rainsfall-biz-service-impl</artifactId>
-                <version>${rainsfall.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.deepinnet</groupId>
                 <artifactId>rainsfall-api</artifactId>
                 <version>${rainsfall.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.deepinnet</groupId>
-                <artifactId>rainsfall-core-service</artifactId>
-                <version>${rainsfall.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.deepinnet</groupId>
-                <artifactId>rainsfall-common-dal</artifactId>
-                <version>${rainsfall.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.deepinnet</groupId>
-                <artifactId>rainsfall-core-model</artifactId>
-                <version>${rainsfall.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.deepinnet</groupId>
-                <artifactId>rainsfall-common-service-facade</artifactId>
-                <version>${rainsfall-common-service-facade-version}</version>
             </dependency>
 
             <dependency>

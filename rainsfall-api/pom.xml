@@ -20,12 +20,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>com.deepinnet</groupId>
-            <artifactId>rainsfall-biz-service-impl</artifactId>
-            <version>${biz-service-impl.version}</version>
-        </dependency>
     </dependencies>
 
 </project>

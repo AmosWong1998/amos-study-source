@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication
-@MapperScan({"com.deepinnet.rainsfall.common.dal.dao"})
+@MapperScan({"com.deepinnet.rainsfall.biz.dal.dao"})
 @EnableDubbo(scanBasePackages = "com.deepinnet")
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class ApplicationStarter {

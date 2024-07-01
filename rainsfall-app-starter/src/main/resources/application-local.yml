@@ -6,7 +6,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      url: jdbc:mysql://localhost:3306?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+      url: jdbc:mysql://localhost:3306/amos?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
       username: root
       password: xiaobiao.
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
@@ -28,6 +28,15 @@ spring:
       stat-view-servlet:
         enabled: true
         url-pattern: /druid/*
+  tcc:
+    dashboard:
+      connection-mode: embedded
+    storage:
+      storage-type: jdbc
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/amos?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+      username: root
+      password: xiaobiao.
 
 # dubbo
 dubbo:

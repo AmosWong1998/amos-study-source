@@ -1,6 +1,6 @@
 package com.deepinnet.rainsfall.biz.dto;
 
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
 

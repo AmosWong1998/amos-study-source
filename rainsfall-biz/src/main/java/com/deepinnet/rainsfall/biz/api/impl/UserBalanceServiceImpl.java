@@ -8,6 +8,7 @@ import com.deepinnet.rainsfall.biz.dal.dataobject.UserBalance;
 import com.deepinnet.rainsfall.biz.dto.DeductUserBalanceRequest;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.mengyun.tcctransaction.api.Compensable;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
@@ -17,6 +18,7 @@ import javax.annotation.Resource;
  * @Description
  */
 @DubboService
+@Service
 public class UserBalanceServiceImpl implements UserBalanceService {
 
     @Resource

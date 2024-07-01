@@ -9,6 +9,8 @@ import com.deepinnet.rainsfall.biz.dto.*;
 import org.apache.dubbo.config.annotation.*;
 import org.mengyun.tcctransaction.api.Compensable;
 
+import javax.annotation.Resource;
+
 /**
  * @author amos wong
  * @create 2024/6/27 17:35
@@ -20,7 +22,7 @@ public class OrderServiceImpl implements OrderService {
     @DubboReference
     private UserBalanceService userBalanceService;
 
-    @DubboReference
+    @Resource
     private OrderMapper orderMapper;
 
     @Override

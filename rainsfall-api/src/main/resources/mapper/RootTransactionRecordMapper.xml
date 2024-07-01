@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="generator.mapper.RootTransactionRecordMapper">
+
+    <resultMap id="BaseResultMap" type="generator.domain.RootTransactionRecord">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="xid" column="xid" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="VARCHAR"/>
+            <result property="interfaceName" column="interface_name" jdbcType="VARCHAR"/>
+            <result property="methodName" column="method_name" jdbcType="VARCHAR"/>
+            <result property="param" column="param" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="VARCHAR"/>
+            <result property="retryCount" column="retry_count" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,xid,type,
+        interface_name,method_name,param,
+        status,retry_count
+    </sql>
+</mapper>

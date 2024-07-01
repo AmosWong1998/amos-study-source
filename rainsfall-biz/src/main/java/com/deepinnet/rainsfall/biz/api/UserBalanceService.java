@@ -1,7 +1,6 @@
 package com.deepinnet.rainsfall.biz.api;
 
 import com.deepinnet.rainsfall.biz.dto.DeductUserBalanceRequest;
-import org.mengyun.tcctransaction.api.EnableTcc;
 
 /**
  * @author amos wong
@@ -10,6 +9,5 @@ import org.mengyun.tcctransaction.api.EnableTcc;
  */
 public interface UserBalanceService {
 
-    @EnableTcc
     Boolean deductUserBalance(DeductUserBalanceRequest request);
 }

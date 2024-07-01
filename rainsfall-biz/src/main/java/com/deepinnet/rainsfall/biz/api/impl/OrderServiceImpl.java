@@ -7,7 +7,6 @@ import com.deepinnet.rainsfall.biz.dal.dao.OrderMapper;
 import com.deepinnet.rainsfall.biz.dal.dataobject.Order;
 import com.deepinnet.rainsfall.biz.dto.*;
 import org.apache.dubbo.config.annotation.*;
-import org.mengyun.tcctransaction.api.Compensable;
 
 import javax.annotation.Resource;
 
@@ -26,7 +25,6 @@ public class OrderServiceImpl implements OrderService {
     private OrderMapper orderMapper;
 
     @Override
-    @Compensable(confirmMethod = "confirmOrder", cancelMethod = "cancelOrder", asyncConfirm = false)
     public Long placeOrder(CreateOrderRequest request) {
         // 创建订单
         Long orderNo = this.createOrder(request);

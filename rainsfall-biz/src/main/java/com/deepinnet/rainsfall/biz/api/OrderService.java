@@ -1,7 +1,6 @@
 package com.deepinnet.rainsfall.biz.api;
 
 import com.deepinnet.rainsfall.biz.dto.CreateOrderRequest;
-import org.mengyun.tcctransaction.api.EnableTcc;
 
 /**
  * @author amos wong
@@ -23,6 +22,5 @@ public interface OrderService {
      * @param createOrderRequest
      * @return
      */
-    @EnableTcc
     Long createOrder(CreateOrderRequest createOrderRequest);
 }

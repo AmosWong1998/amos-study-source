@@ -7,7 +7,6 @@ import com.deepinnet.rainsfall.biz.dal.dao.BalanceMapper;
 import com.deepinnet.rainsfall.biz.dal.dataobject.UserBalance;
 import com.deepinnet.rainsfall.biz.dto.DeductUserBalanceRequest;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.mengyun.tcctransaction.api.Compensable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,7 +24,6 @@ public class UserBalanceServiceImpl implements UserBalanceService {
     private BalanceMapper balanceMapper;
 
     @Override
-    @Compensable(confirmMethod = "realDeductUserBalance", cancelMethod = "cancelDeductUserBalance", asyncConfirm = false)
     public Boolean deductUserBalance(DeductUserBalanceRequest request) {
         LambdaQueryWrapper<UserBalance> wrappers = Wrappers.<UserBalance>lambdaQuery()
                 .eq(UserBalance::getUserNo, request.getUserNo());

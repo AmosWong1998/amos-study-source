@@ -29,9 +29,9 @@ public @interface GlobalTransactionStart {
      */
     String executeType() default "retry";
 
-    String rollbackInterface();
+    String rollbackInterface() default "";
 
-    String rollbackMethod();
+    String rollbackMethod() default "";
 
-    String rollbackParameter();
+    String rollbackParameter() default "";
 }

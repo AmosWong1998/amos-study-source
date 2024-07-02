@@ -13,6 +13,8 @@ public enum TransactionStatusEnum {
 
     INIT("init", "初始化"),
 
+    WAIT_EXECUTE("wait_execute", "待执行"),
+
     SUCCESS("success", "成功"),
 
     FAIL("fail", "失败");

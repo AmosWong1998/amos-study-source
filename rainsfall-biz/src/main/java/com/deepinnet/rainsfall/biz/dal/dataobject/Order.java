@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * @TableName tcc_transaction_order
  */
-@TableName(value ="order")
+@TableName(value ="user_order")
 @Data
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L;

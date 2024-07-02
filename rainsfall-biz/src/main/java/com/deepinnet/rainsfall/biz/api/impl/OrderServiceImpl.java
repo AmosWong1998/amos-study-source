@@ -1,6 +1,7 @@
 package com.deepinnet.rainsfall.biz.api.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.deepinnet.rainsfall.biz.annotation.GlobalTransactionStart;
 import com.deepinnet.rainsfall.biz.api.*;
 import com.deepinnet.rainsfall.biz.constants.TpOrderStatusConstants;
 import com.deepinnet.rainsfall.biz.dal.dao.OrderMapper;
@@ -25,6 +26,7 @@ public class OrderServiceImpl implements OrderService {
     private OrderMapper orderMapper;
 
     @Override
+    @GlobalTransactionStart(type = "root")
     public Long placeOrder(CreateOrderRequest request) {
         // 创建订单
         Long orderNo = this.createOrder(request);
@@ -38,6 +40,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @GlobalTransactionStart(type = "branch")
     public Long createOrder(CreateOrderRequest createOrderRequest) {
         long orderNo = System.currentTimeMillis();
         Order order = new Order();

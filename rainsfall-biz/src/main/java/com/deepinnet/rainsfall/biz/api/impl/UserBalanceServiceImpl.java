@@ -2,6 +2,7 @@ package com.deepinnet.rainsfall.biz.api.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.deepinnet.rainsfall.biz.annotation.GlobalTransactionStart;
 import com.deepinnet.rainsfall.biz.api.UserBalanceService;
 import com.deepinnet.rainsfall.biz.dal.dao.BalanceMapper;
 import com.deepinnet.rainsfall.biz.dal.dataobject.UserBalance;
@@ -24,6 +25,7 @@ public class UserBalanceServiceImpl implements UserBalanceService {
     private BalanceMapper balanceMapper;
 
     @Override
+    @GlobalTransactionStart(type = "branch")
     public Boolean deductUserBalance(DeductUserBalanceRequest request) {
         LambdaQueryWrapper<UserBalance> wrappers = Wrappers.<UserBalance>lambdaQuery()
                 .eq(UserBalance::getUserNo, request.getUserNo());

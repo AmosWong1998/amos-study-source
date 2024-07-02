@@ -1,14 +1,12 @@
 package com.deepinnet.rainsfall.biz.aspect;
 
-import cn.hutool.json.*;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import cn.hutool.json.JSONUtil;
 import com.deepinnet.rainsfall.biz.annotation.GlobalTransactionStart;
 import com.deepinnet.rainsfall.biz.context.*;
-import com.deepinnet.rainsfall.biz.dal.dao.*;
 import com.deepinnet.rainsfall.biz.dal.dataobject.*;
-import com.deepinnet.rainsfall.biz.dal.repository.RootTransactionRecordRepository;
+import com.deepinnet.rainsfall.biz.dal.repository.*;
 import com.deepinnet.rainsfall.biz.enums.*;
+import com.deepinnet.rainsfall.biz.exception.TransactionException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -29,15 +27,12 @@ import java.util.UUID;
 public class TransactionAspect {
 
     @Resource
-    private RootTransactionRecordMapper rootTransactionRecordMapper;
-
-    @Resource
     private RootTransactionRecordRepository rootTransactionRecordRepository;
 
     @Resource
-    private BranchTransactionRecordMapper branchTransactionRecordMapper;
+    private BranchTransactionRecordRepository branchTransactionRecordRepository;
 
-    @Pointcut(value = "@within(com.deepinnet.rainsfall.biz.annotation.GlobalTransactionStart)")
+    @Pointcut(value = "@annotation(com.deepinnet.rainsfall.biz.annotation.GlobalTransactionStart)")
     private void pointcut() {
     }
 
@@ -48,34 +43,42 @@ public class TransactionAspect {
         // 保存分布式事务执行记录
         try {
             if (StringUtils.equals(transactionStart.type(), TransactionTypeEnum.ROOT.getCode())) {
+                // 执行业务逻辑
+                proceedResult = joinPoint.proceed();
+
                 // 持久化事务
-                RootTransactionRecord rootTransactionRecord = buildRootTransactionRecord(joinPoint);
-                rootTransactionRecordMapper.insert(rootTransactionRecord);
+                RootTransactionRecord rootTransactionRecord = buildRootTransactionRecord(joinPoint, TransactionStatusEnum.SUCCESS.getCode());
+                rootTransactionRecordRepository.insert(rootTransactionRecord);
 
                 // 初始化事务上下文
                 TransactionContext transactionContext = new TransactionContext();
                 transactionContext.setRootXid(rootTransactionRecord.getXid());
             } else {
+                proceedResult = joinPoint.proceed();
+
+                // 保存分支事务
                 BranchTransactionRecord branchTransactionRecord = buildBranchTransactionRecord(joinPoint, transactionStart);
-                branchTransactionRecordMapper.insert(branchTransactionRecord);
+                branchTransactionRecordRepository.insert(branchTransactionRecord);
             }
         } catch (Exception e) {
-            log.error("分布式事务记录保存失败，异常信息为：[0]", e);
-        } finally {
-            TransactionContextHolder.removeTransactionContext();
-        }
+            if (e instanceof TransactionException) {
+                log.error("分布式事务记录保存失败，异常信息为：", e);
+            } else {
+                if (StringUtils.equals(transactionStart.type(), TransactionTypeEnum.ROOT.getCode())) {
+                    // 持久化事务
+                    RootTransactionRecord rootTransactionRecord = buildRootTransactionRecord(joinPoint, TransactionStatusEnum.WAIT_EXECUTE.getCode());
+                    rootTransactionRecordRepository.insert(rootTransactionRecord);
 
-        try {
-            // 执行业务逻辑
-            proceedResult = joinPoint.proceed();
-
-            // 更新事务为执行成功
-            LambdaUpdateWrapper<RootTransactionRecord> wrappers = Wrappers.<RootTransactionRecord>lambdaUpdate()
-                    .set(RootTransactionRecord::getStatus, TransactionStatusEnum.SUCCESS.getCode())
-                    .eq(RootTransactionRecord::getXid, TransactionContextHolder.getRootId());
-            rootTransactionRecordRepository.update(wrappers);
-        } catch (Exception e) {
-            log.error("分布式事务记录保存失败，异常信息为：[0]", e);
+                    // 初始化事务上下文
+                    TransactionContext transactionContext = new TransactionContext();
+                    transactionContext.setRootXid(rootTransactionRecord.getXid());
+                } else {
+                    // 保存分支事务
+                    BranchTransactionRecord branchTransactionRecord = buildBranchTransactionRecord(joinPoint, transactionStart);
+                    branchTransactionRecordRepository.insert(branchTransactionRecord);
+                }
+                throw e;
+            }
         } finally {
             TransactionContextHolder.removeTransactionContext();
         }
@@ -84,7 +87,7 @@ public class TransactionAspect {
     }
 
 
-    private RootTransactionRecord buildRootTransactionRecord(ProceedingJoinPoint joinPoint) {
+    private RootTransactionRecord buildRootTransactionRecord(ProceedingJoinPoint joinPoint, String status) {
         // 根事务记录
         RootTransactionRecord rootTransactionRecord = new RootTransactionRecord();
         String xid = UUID.randomUUID().toString().replace("-", "");
@@ -93,7 +96,7 @@ public class TransactionAspect {
         rootTransactionRecord.setInterfaceName(joinPoint.getTarget().getClass().getName());
         rootTransactionRecord.setMethodName(joinPoint.getSignature().getName());
         rootTransactionRecord.setParam(JSONUtil.toJsonStr(joinPoint.getArgs()));
-        rootTransactionRecord.setStatus(TransactionStatusEnum.INIT.getCode());
+        rootTransactionRecord.setStatus(status);
         rootTransactionRecord.setRetryCount(0);
         return rootTransactionRecord;
     }

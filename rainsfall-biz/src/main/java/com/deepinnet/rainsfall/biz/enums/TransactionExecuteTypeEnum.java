@@ -13,6 +13,8 @@ public enum TransactionExecuteTypeEnum {
 
     RETRY("retry", "重试"),
 
+    NONE("none", "不需要执行任何操作"),
+
     ROLLBACK("rollback", "回滚");
 
     private final String code;

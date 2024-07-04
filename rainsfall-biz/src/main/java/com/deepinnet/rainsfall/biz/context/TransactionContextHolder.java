@@ -20,10 +20,13 @@ public class TransactionContextHolder {
         return transactionContextHolder.get();
     }
 
-    public static String getRootId() {
+    public static String getRootXid() {
         return transactionContextHolder.get().getRootXid();
     }
 
+    public static String getXid() {
+        return transactionContextHolder.get().getXid();
+    }
 
     public static void removeTransactionContext() {
         transactionContextHolder.remove();

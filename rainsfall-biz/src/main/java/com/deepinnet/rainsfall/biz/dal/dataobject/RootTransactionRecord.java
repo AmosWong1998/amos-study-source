@@ -15,8 +15,6 @@ public class RootTransactionRecord implements Serializable {
 
     private String xid;
 
-    private String type;
-
     private String interfaceName;
 
     private String methodName;

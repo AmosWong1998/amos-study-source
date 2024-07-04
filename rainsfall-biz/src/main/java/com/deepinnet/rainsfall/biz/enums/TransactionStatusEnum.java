@@ -11,13 +11,19 @@ import lombok.*;
 @Getter
 public enum TransactionStatusEnum {
 
-    INIT("init", "初始化"),
+    EXECUTING("executing", "执行中"),
 
-    WAIT_EXECUTE("wait_execute", "待执行"),
+    EXECUTE_FAIL("execute_fail", "执行失败"),
 
-    SUCCESS("success", "成功"),
+    EXECUTE_SUCCESS("execute_success", "执行成功"),
 
-    FAIL("fail", "失败");
+    RETRYING("retrying", "重试中"),
+
+    RETRYING_SUCCESS("retrying_success", "重试成功"),
+
+    RETRYING_FAIL("retrying_fail", "重试失败"),
+
+    TERMINATED("terminated", "终止");
 
     private final String code;
 

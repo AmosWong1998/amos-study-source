@@ -12,4 +12,5 @@ public class TransactionContext {
 
     private String rootXid;
 
+    private String xid;
 }
